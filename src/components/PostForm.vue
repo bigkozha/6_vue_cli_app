@@ -5,6 +5,7 @@
         <h4>Posting a text</h4>
         <div class="input-group mb-3">
           <input
+          id="id_text"
             v-model="post.text"
             type="text"
             class="form-control"
@@ -35,7 +36,8 @@ export default {
   },
   methods: {
     addPost() {
-      this.$emit('addPost', this.post.text);
+      this.post.created_at = new Date();
+      this.$emit('addPost', this.post);
     },
   },
 };

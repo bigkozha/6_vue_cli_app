@@ -10,45 +10,36 @@
 </template>
 
 <script>
-import Post from './components/Post.vue';
-import PostForm from './components/PostForm.vue';
+import Post from "./components/Post.vue";
+import PostForm from "./components/PostForm.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: { Post, PostForm },
   data() {
     return {
-      newPost: '',
-      posts: [
-        {
-          text: 'text 1',
-        },
-        {
-          text: 'text 2',
-        },
-        {
-          text: 'text 3',
-        },
-      ],
+      posts: [],
     };
   },
   methods: {
-    addPost(text) {
-      this.posts.unshift({
-        text: text,
+    addPost(post) {
+      fetch("http://localhost:8000/api/posts/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(post),
+      }).then((response) => {
+        if (response.status === 201) {
+          this.posts.unshift({
+            text: post.text,
+          });
+        }
       });
     },
   },
+  created() {
+    fetch("http://localhost:8000/api/posts/")
+      .then((response) => response.json())
+      .then((data) => (this.posts = data));
+  },
 };
 </script>
-
-<style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
-</style>

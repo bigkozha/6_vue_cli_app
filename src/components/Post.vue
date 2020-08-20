@@ -8,7 +8,7 @@
 export default {
   name: 'Post',
   props: ['text'],
-  date() {
+  data() {
     return {};
   },
 };
